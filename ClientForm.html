@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Client Data Collection Form</title>
+</head>
+<body>
+    <form id="dataForm">
+        <label for="phone">Contact Number:</label><br>
+        <input type="text" id="phone" name="phone" required><br><br>
+        <label >Preferred Time to Contact</label><br>
+        <label for="preferred_time_start">From:</label><br>
+        <input type ="time" id="preferred_time_start" name="preferred_time_start" required><br><br>
+        <label for="preferred_time_end">To:</label><br>
+        <input type ="time" id="preferred_time_end" name="preferred_time_end" required><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        document.getElementById('dataForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const data = {
+                phone: document.getElementById('phone').value,
+                preferred_time_start: document.getElementById('preferred_time_start').value,
+                preferred_time_end: document.getElementById('preferred_time_end').value
+            };
+
+            fetch('https://citi-5d-dev-ed.develop.my.salesforce.com/services/apexrest/FormSubmission', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer 6Cel800DdM000003UJCL888dM0000002kunFoOlp2xjDP2h5dMiki5lubJU9O8LDxlaCLUicObFRQqwEBBE2rwvbVM0QgLeYtyjhV13PQxO'
+                },
+                body: JSON.stringify(data)
+            }).then(response => {
+                if (response.ok) {
+                    alert('Form submitted successfully');
+                } else {
+                    alert('Form submission failed');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
