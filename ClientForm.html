@@ -36,7 +36,7 @@
                 if (response.ok) {
                     alert('Form submitted successfully');
                 } else {
-                    alert(response.body);
+                    alert(response.text() );
                     alert(response.statusText+'Form submission failed');
                 }
             });
