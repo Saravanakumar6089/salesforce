@@ -29,14 +29,18 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer 00DdM000003UJCL!AQEAQAD9oYUBsSk2iKG7PiRswDPmaNV2hMSyLgKUP1s.KxUHrvsKnlhVmSFbp.sgBj9KI8947yz8RM1R.1satfrm1ny3AU5N'
+                    'Authorization': 'Bearer 00DdM000003UJCL!AQEAQChUrtZv0t2QyuGB3C6O0YnBPr1aUGcURssNTTJc3J7m.Nuwc.SVuhJWQGdL_YxwIOQvrjXs9uEYA1JEsJCjEsJA2aaN'
                 },
                 body: JSON.stringify(data)
             }).then(response => {
                 if (response.ok) {
                     alert('Form submitted successfully');
                 } else {
-                    alert(response.text() );
+                    alert(response);
+                alert(response.body);
+                alert(response.message);
+                alert(response.errors);
+                alert(response.json());
                     alert(response.statusText+'Form submission failed');
                 }
             });
