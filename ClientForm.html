@@ -35,7 +35,9 @@
                     'refresh_token': refreshToken
                 })
             });
-        
+            if (!resp.ok) {
+                throw new Error(`HTTP error! Status: ${resp.status}`);
+            }
             const tokendata = resp.json();
             if (resp.ok) {
                 accessToken = tokendata.access_token;
