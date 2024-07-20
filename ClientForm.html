@@ -16,6 +16,34 @@
     </form>
 
     <script>
+        const clientId = '3MVG9WVXk15qiz1LWN2jKApNTQGjdb840JJ._pDvgj_oi7q4yUEyu69wvZ.cEQgx1KQyMIEOGenU1PIs.5R1l';
+        const clientSecret = 'D6EFF72C30557ED27690EDDA1B977077448A677C2A4BBB231FB9CA8AEF875C31';
+        const refreshToken = '5Aep861iCXbTx3lghRD4bxys_NofOs2t7.TluBAVyf7OLT4PieCZXb3DuzuAHkJtQ6q6bX82q.L.cLOM10G4IRG';
+        const tokenUrl = 'https://citi-5d-dev-ed.develop.my.salesforce.com/services/oauth2/token';
+        const apiUrl = 'https://citi-5d-dev-ed.develop.my.salesforce.com/services/oauth2/authorize';
+        let accessToken;
+        function getNewAccessToken() {
+            const resp = fetch(tokenUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    'grant_type': 'refresh_token',
+                    'client_id': clientId,
+                    'client_secret': clientSecret,
+                    'refresh_token': refreshToken
+                })
+            });
+        
+            const tokendata = resp.json();
+            if (resp.ok) {
+                accessToken = tokendata.access_token;
+            } else {
+                console.error('Error refreshing token:', tokendata);
+            }
+        }
+
         document.getElementById('dataForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
@@ -25,11 +53,15 @@
                 preferred_time_end: document.getElementById('preferred_time_end').value
             };
 
+            if (!accessToken) {
+                getNewAccessToken();
+            }        
+
             fetch('https://citi-5d-dev-ed.develop.my.salesforce.com/services/apexrest/FormSubmission', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer 00DdM000003UJCL!AQEAQChUrtZv0t2QyuGB3C6O0YnBPr1aUGcURssNTTJc3J7m.Nuwc.SVuhJWQGdL_YxwIOQvrjXs9uEYA1JEsJCjEsJA2aaN'
+                    'Authorization': 'Bearer '+accessToken
                 },
                 body: JSON.stringify(data)
             }).then(response => {
