@@ -23,7 +23,7 @@
         const apiUrl = 'https://citi-5d-dev-ed.develop.my.salesforce.com/services/oauth2/authorize';
         let accessToken;
         function getNewAccessToken() {
-            const resp = fetch(tokenUrl, {
+            fetch(tokenUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -34,16 +34,22 @@
                     'client_secret': clientSecret,
                     'refresh_token': refreshToken
                 })
+            }).then(resp=>{
+                if (resp.ok) {
+                    alert('Token refresh successful');
+                    const tokendata = JSON.stringify(resp);
+                    if (resp.ok) {
+                        accessToken = tokendata.access_token;
+                    } else {
+                        console.error('Error refreshing token:', tokendata);
+                    }
+                } else {
+                    alert(response.statusText+'Form submission failed');
+                }
+
             });
-            if (!resp.ok) {
-                throw new Error(`HTTP error! Status: ${resp.status}`);
-            }
-            const tokendata = resp.json();
-            if (resp.ok) {
-                accessToken = tokendata.access_token;
-            } else {
-                console.error('Error refreshing token:', tokendata);
-            }
+            
+            
         }
 
         document.getElementById('dataForm').addEventListener('submit', function(event) {
@@ -70,11 +76,7 @@
                 if (response.ok) {
                     alert('Form submitted successfully');
                 } else {
-                    alert(response);
-                alert(response.body);
-                alert(response.message);
-                alert(response.errors);
-                alert(response.json());
+                    
                     alert(response.statusText+'Form submission failed');
                 }
             });
