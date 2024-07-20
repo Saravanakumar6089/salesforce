@@ -1,0 +1,36 @@
+<html>
+    <body>
+        <script>
+            async function getNewAccessToken() {
+            
+                const clientId = '3MVG9WVXk15qiz1LWN2jKApNTQGjdb840JJ._pDvgj_oi7q4yUEyu69wvZ.cEQgx1KQyMIEOGenU1PIs.5R1l';
+                const clientSecret = 'D6EFF72C30557ED27690EDDA1B977077448A677C2A4BBB231FB9CA8AEF875C31';
+                const refreshToken = '5Aep861iCXbTx3lghRD4bxys_NofOs2t7.TluBAVyf7OLT4PieCZXb3DuzuAHkJtQ6q6bX82q.L.cLOM10G4IRG';
+                const tokenUrl = 'https://citi-5d-dev-ed.develop.my.salesforce.com/services/oauth2/token';
+                const response = await fetch(tokenUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        'grant_type': 'refresh_token',
+                        'client_id': clientId,
+                        'client_secret': clientSecret,
+                        'refresh_token': refreshToken
+                    })
+                });
+            
+                const data = await response.json();
+                if (response.ok) {
+                    console.log('Access Token:', data.access_token);
+                    // You can now use the access token to make authenticated API requests
+                } else {
+                    console.error('Error refreshing token:', data);
+                }
+            }
+            
+            // Call the function to get a new access token
+            getNewAccessToken();
+        </script>
+    </body>
+</html>
