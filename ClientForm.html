@@ -39,7 +39,7 @@
                     alert('Token refresh successful');
                     const tokendata = JSON.stringify(resp);
                     if (resp.ok) {
-                        accessToken = tokendata.access_token;
+                        accessToken = tokendata.access_token.toString();
                     } else {
                         console.error('Error refreshing token:', tokendata);
                     }
