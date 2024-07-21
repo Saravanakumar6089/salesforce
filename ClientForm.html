@@ -68,27 +68,22 @@
         <label for="preferred_time_start">From:</label>
         <input type ="time" id="preferred_time_start" name="preferred_time_start" required>
         <span>------------</span>
-        <label for="preferred_time_end">To:</label>
-        <input type ="time" id="preferred_time_end" name="preferred_time_end" required>
+        <label for="preferred_time_end" align="right">To:</label>
+        <input type ="time" id="preferred_time_end"  align="right" name="preferred_time_end" required>
         </div><br><br>
         <input type="submit" value="Submit">
     </form>
 
     <script>
-           /* const phone = document.getElementById('phone').value;
-            const phoneRegex = /^\d{10}$/;
-            if (!phoneRegex.test(phone)) {
-                alert('Please enter a valid 10-digit phone number.');
-                return;
-            }
-
-            // Validate time range
-            const startTime = document.getElementById('preferred_time_start').value;
-            const endTime = document.getElementById('preferred_time_end').value;
-            if (startTime >= endTime) {
-                alert('The "From" time must be less than the "To" time.');
-                return;
-            }*/
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            const paramObj = {};
+            params.forEach((value, key) => {
+                paramObj[key] = value;
+            });
+            return paramObj;
+        }
+        
         const clientId = '3MVG9WVXk15qiz1LWN2jKApNTQGjdb840JJ._pDvgj_oi7q4yUEyu69wvZ.cEQgx1KQyMIEOGenU1PIs.5R1l';
         const clientSecret = 'D6EFF72C30557ED27690EDDA1B977077448A677C2A4BBB231FB9CA8AEF875C31';
         const refreshToken = '5Aep861iCXbTx3lghRD4bxys_NofOs2t7.TluBAVyf7OLT4PieCZXb3DuzuAHkJtQ6q6bX82q.L.cLOM10G4IRG';
@@ -124,10 +119,27 @@
         document.getElementById('dataForm').addEventListener('submit', async function(event) {
             event.preventDefault();
 
+            const phone = document.getElementById('phone').value;
+            const phoneRegex = /^\d{10}$/;
+            if (!phoneRegex.test(phone)) {
+                alert('Please enter a valid 10-digit phone number.');
+                return;
+            }
+
+            // Validate time range
+            const startTime = document.getElementById('preferred_time_start').value;
+            const endTime = document.getElementById('preferred_time_end').value;
+            if (startTime >= endTime) {
+                alert('The "From" time must be less than the "To" time.');
+                return;
+            }
+            const params = getUrlParams();
+
             const data = {
                 phone: document.getElementById('phone').value,
                 preferred_time_start: document.getElementById('preferred_time_start').value,
-                preferred_time_end: document.getElementById('preferred_time_end').value
+                preferred_time_end: document.getElementById('preferred_time_end').value,
+                account_no:params.account_no
             };
 
             if (!accessToken) {
