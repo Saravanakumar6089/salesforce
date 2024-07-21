@@ -19,7 +19,7 @@
           }
           input[type="text"],
           input[type="email"] {
-            width: 100%;
+            width: 80%;
             padding: 8px;
             margin-top: 5px;
             margin-bottom: 15px;
@@ -59,14 +59,15 @@
         <h3>MyBank Services</h3>
         <h6>Kindly fill the following details !!!
         We will contact you to serve better...</h6>
-    </div>
+    </div><br>
     <form id="dataForm">
         <label for="phone">Contact Number:</label><br>
         <input type="text" id="phone" name="phone" required><br><br>
         <label >Preferred Time to Contact</label><br>
-        <label for="preferred_time_start">From:</label><br>
-        <input type ="time" id="preferred_time_start" name="preferred_time_start" required><br><br>
-        <label for="preferred_time_end">To:</label><br>
+        <label for="preferred_time_start">From:</label>
+        <input type ="time" id="preferred_time_start" name="preferred_time_start" required>
+        <span>------------</span>
+        <label for="preferred_time_end">To:</label>
         <input type ="time" id="preferred_time_end" name="preferred_time_end" required><br><br>
         <input type="submit" value="Submit">
     </form>
