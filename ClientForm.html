@@ -1,9 +1,65 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+          }
+          form {
+            max-width: 600px;
+            margin: auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+          }
+          label {
+            display: block;
+            margin-top: 10px;
+          }
+          input[type="text"],
+          input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+          }
+          .heading{
+              background-color: #174118;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+          }
+          input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+          }
+          input[type="submit"]:hover {
+            background-color: #45a049;
+          }
+          .error {
+            color: red;
+            margin-top: -10px;
+            margin-bottom: 10px;
+          }
+    </style>
     <title>Client Data Collection Form</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+    <div class="container heading">
+        <h3>MyBank Services</h3>
+        <h6>Kindly fill the following details !!!
+        We will contact you to serve better...</h6>
+    </div>
     <form id="dataForm">
         <label for="phone">Contact Number:</label><br>
         <input type="text" id="phone" name="phone" required><br><br>
@@ -16,6 +72,20 @@
     </form>
 
     <script>
+            const phone = document.getElementById('phone').value;
+            const phoneRegex = /^\d{10}$/;
+            if (!phoneRegex.test(phone)) {
+                alert('Please enter a valid 10-digit phone number.');
+                return;
+            }
+
+            // Validate time range
+            const startTime = document.getElementById('preferred_time_start').value;
+            const endTime = document.getElementById('preferred_time_end').value;
+            if (startTime >= endTime) {
+                alert('The "From" time must be less than the "To" time.');
+                return;
+            }
         const clientId = '3MVG9WVXk15qiz1LWN2jKApNTQGjdb840JJ._pDvgj_oi7q4yUEyu69wvZ.cEQgx1KQyMIEOGenU1PIs.5R1l';
         const clientSecret = 'D6EFF72C30557ED27690EDDA1B977077448A677C2A4BBB231FB9CA8AEF875C31';
         const refreshToken = '5Aep861iCXbTx3lghRD4bxys_NofOs2t7.TluBAVyf7OLT4PieCZXb3DuzuAHkJtQ6q6bX82q.L.cLOM10G4IRG';
