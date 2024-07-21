@@ -22,8 +22,8 @@
         const tokenUrl = 'https://citi-5d-dev-ed.develop.my.salesforce.com/services/oauth2/token';
         const apiUrl = 'https://citi-5d-dev-ed.develop.my.salesforce.com/services/oauth2/authorize';
         let accessToken;
-        function getNewAccessToken() {
-            fetch(tokenUrl, {
+        async function getNewAccessToken() {
+            const resp = await fetch(tokenUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -34,27 +34,21 @@
                     'client_secret': clientSecret,
                     'refresh_token': refreshToken
                 })
-            }).then(resp=>{
-                if (resp.ok) {
-                    alert('Token refresh successful');
-                    const tokendata = JSON.stringify(resp);
-                    if (resp.ok) {
-                        alert(tokendata);
-                        accessToken = tokendata.access_token;
-                        alert(accessToken);
-                    } else {
-                        console.error('Error refreshing token:', tokendata);
-                    }
-                } else {
-                    alert(response.statusText+'Form submission failed');
-                }
-
             });
-            
-            
+        
+            const tokendata = await resp.json();
+            if (resp.ok) {
+                alert(resp)
+                console.log('Access Token:', tokendata.access_token);
+                accessToken=tokendata.access_token;
+                // You can now use the access token to make authenticated API requests
+            } else {
+                console.error('Error refreshing token:', tokendata);
+            }
+  
         }
 
-        document.getElementById('dataForm').addEventListener('submit', function(event) {
+        document.getElementById('dataForm').addEventListener('submit', async function(event) {
             event.preventDefault();
 
             const data = {
@@ -64,10 +58,10 @@
             };
 
             if (!accessToken) {
-                getNewAccessToken();
+                await getNewAccessToken();
             }        
 
-            fetch('https://citi-5d-dev-ed.develop.my.salesforce.com/services/apexrest/FormSubmission', {
+            await fetch('https://citi-5d-dev-ed.develop.my.salesforce.com/services/apexrest/FormSubmission', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
