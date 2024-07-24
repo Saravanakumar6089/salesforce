@@ -49,6 +49,9 @@
             margin-top: -10px;
             margin-bottom: 10px;
           }
+          #externalAccountDetails {
+            display: none;
+        }
     </style>
     <title>Client Data Collection Form</title>
     <meta charset="UTF-8">
@@ -63,18 +66,43 @@
     <form id="dataForm">
         <label for="phone">Contact Number:</label><br>
         <input type="text" id="phone" name="phone" required><br><br>
-        <label >Preferred Time to Contact</label><br>
-        <div class="row">
+
+        <label >Preferred Time to Contact</label><br><br>
         <label for="preferred_time_start">From:</label>
         <input type ="time" id="preferred_time_start" name="preferred_time_start" required>
-        <span>------------</span>
-        <label for="preferred_time_end" align="right">To:</label>
-        <input type ="time" id="preferred_time_end"  align="right" name="preferred_time_end" required>
-        </div><br><br>
+        <br>
+        <label for="preferred_time_end">To:</label>
+        <input type ="time" id="preferred_time_end" name="preferred_time_end" required>
+        <br><br>
+
+        <p>Account Details in Other Banks ------------------------------------------</p>
+        <input type="checkbox" id="noAccountCheckbox" onclick="toggleExternalAccountDetails()"/> No Account
+        <label>External Account Details</label><br><br>
+
+        <div id="externalAccountDetails">
+            <label for="ext_acc_no">Account Number:</label>
+            <input type="text" id="ext_acc_no" name="ext_acc_no">
+            <br>
+            <label for="ext_bank_balance">Bank Balance:</label>
+            <input type="number" id="ext_bank_balance" name="ext_bank_balance">
+            <br><br>
+        </div>
+        
         <input type="submit" value="Submit">
     </form>
 
     <script>
+        function toggleExternalAccountDetails() {
+            var checkbox = document.getElementById('noAccountCheckbox');
+            var details = document.getElementById('externalAccountDetails');
+            
+            if (checkbox.checked) {
+                details.style.display = 'none';
+            } else {
+                details.style.display = 'block';
+            }
+        }
+
         function getUrlParams() {
             const params = new URLSearchParams(window.location.search);
             const paramObj = {};
@@ -126,6 +154,20 @@
                 return;
             }
 
+            const ext_acc_no = document.getElementById('ext_acc_no').value;
+            const acctRegex = /^\d{8}$/;
+            if (!acctRegex.test(ext_acc_no)) {
+                alert('Please enter a valid 8-digit account number.');
+                return;
+            }
+
+            const ext_bank_balance = document.getElementById('ext_bank_balance').value;
+            if (ext_bank_balance<0) {
+                alert('Invalid Bank Balance');
+                return;
+            }
+
+
             // Validate time range
             const startTime = document.getElementById('preferred_time_start').value;
             const endTime = document.getElementById('preferred_time_end').value;
@@ -139,7 +181,9 @@
                 phone: document.getElementById('phone').value,
                 preferred_time_start: document.getElementById('preferred_time_start').value,
                 preferred_time_end: document.getElementById('preferred_time_end').value,
-                contact_no:params.contact_id
+                contact_no:params.contact_id,
+                ext_acc_no: ext_acc_no,
+                ext_bank_balance: ext_bank_balance
             };
 
             if (!accessToken) {
