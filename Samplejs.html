@@ -22,6 +22,7 @@
             
                 const data = await response.json();
                 if (response.ok) {
+                    alert(response)
                     console.log('Access Token:', data.access_token);
                     // You can now use the access token to make authenticated API requests
                 } else {
